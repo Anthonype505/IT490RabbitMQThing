@@ -2,7 +2,7 @@ import pika
 
 
 creds= pika.PlainCredentials('guest', 'guest')
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672,'AMERICA', creds))
+connection = pika.BlockingConnection(pika.ConnectionParameters( '192.168.1.106', 5672,'AMERICA', creds))
 
 channel = connection.channel()
 
@@ -21,7 +21,7 @@ def on_request(ch, method, props, body):
 	print "Response from client: " + body
 	response = str(n)
 	ch.basic_publish(exchange='testExchange', 
-			routing_key=props.reply_to, 
+			routing_key='test.response', 
 			properties=pika.BasicProperties(correlation_id=
 							props.correlation_id),
 			body=response)

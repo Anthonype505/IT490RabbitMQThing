@@ -1,7 +1,7 @@
 import pika
 
 creds= pika.PlainCredentials('guest', 'guest')
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672,'AMERICA', creds))
+connection = pika.BlockingConnection(pika.ConnectionParameters('192.168.1.106', 5672,'AMERICA', creds))
 
 channel = connection.channel()
 

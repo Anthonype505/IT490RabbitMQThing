@@ -185,7 +185,7 @@ class rabbitMQClient
 		}
     $this->conn_queue->ack($response->getDeliveryTag());
 		$body = $response->getBody();
-		$payload = /*json_decode($body, true) */ $body;
+		$payload = json_decode($body, true);
 		if (!(isset($payload)))
 		{
 			$payload = "[empty response]";
@@ -198,7 +198,7 @@ class rabbitMQClient
 	{
 		$uid = uniqid();
 
-		$json_message = "Hello!"/*json_encode($message) */;
+		$json_message = json_encode($message);
 		echo "sending request expecting a response\n";
 		try
 		{
@@ -255,7 +255,7 @@ class rabbitMQClient
 	 */
 	function publish($message)
 	{
-		$json_message = /*json_encode(*/$message/*)*/;
+		$json_message = json_encode($message);
 		try
 		{
       $params = array();

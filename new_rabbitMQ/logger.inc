@@ -12,7 +12,7 @@ class logger {
 
 	function log($type,$message){
 		$params = array();
-		$params['host'] = '127.0.0.1';
+		$params['host'] = '192.168.1.106';
 		$params['port'] =  '5672';
 		$params['login'] = 'guest';
 		$params['password'] = 'guest';

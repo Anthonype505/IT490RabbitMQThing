@@ -21,13 +21,13 @@ class logger {
 		switch($type){
 			case "error":
 				$newMessage = "[".date('Y-m-d h:i:sa')."] ERRROR!!!! \"".$message."\" !!!!!!!!";
-
+				break;
 			case "received":
 				$newMessage = "[".date('Y-m-d h:i:sa')."] The message: \"".$message."\" has been received!";
-			
+				break;
 			case "sent":
 				$newMessage = "[".date('Y-m-d h:i:sa')."] The message: \"".$message."\" has been sent!";
-
+				break;
 		}
 		
 		$conn = new AMQPConnection($params);
