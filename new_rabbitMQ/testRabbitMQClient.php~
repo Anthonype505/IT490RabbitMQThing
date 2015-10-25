@@ -20,12 +20,12 @@ else
 
 
 $request = array();
-$request['type'] = "Login";
-$request['username'] = "steve";
-$request['password'] = "password";
-$request['message'] = $msg;
-$response = $client->send_request(/*$request*/ "words");
-$logger->log(3,$response);
+$request[0] = "login";
+$request[1] = array("agoldman","boypillow");
+
+$logger->log("received",'words');
+$response = $client->send_request($request);
+$logger->log("received",$response);
 
 echo "client received response: ".PHP_EOL;
 print_r($response);
@@ -34,6 +34,6 @@ echo "\n\n";
 echo $argv[0]." END".PHP_EOL;
 }
 catch (Exception $e) {
-	$logger->log(1, $e->geMessage());
+	$logger->log("error", $e->geMessage());
 }
 

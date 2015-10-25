@@ -149,7 +149,7 @@ class rabbitMQClient
 	private $VHOST;
 	private $exchange;
 	private $queue;
-	private $routing_key = '*';
+	private $routing_key = 'test';
 	private $response_queue = array();
 	private $exchange_type = "topic";
 
@@ -226,6 +226,7 @@ class rabbitMQClient
 			$this->conn_queue = new AMQPQueue($channel);
 			$this->conn_queue->setName($this->queue);
 			$this->conn_queue->bind($exchange->getName(),$this->routing_key);
+
 
 			$exchange->publish($json_message,$this->routing_key,AMQP_NOPARAM,array('reply_to'=>$callback_queue->getName(),'correlation_id'=>$uid));
 	$loggy = new logger("logger.inc");

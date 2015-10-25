@@ -12,7 +12,7 @@ class logger {
 
 	function log($type,$message){
 		$params = array();
-		$params['host'] = '192.168.1.106';
+		$params['host'] = '127.0.0.1';
 		$params['port'] =  '5672';
 		$params['login'] = 'guest';
 		$params['password'] = 'guest';
@@ -39,10 +39,9 @@ class logger {
       $exchange->setName("testExchange");
       $exchange->setType("Topic");
 
-			$this->conn_queue = new AMQPQueue($channel);
-			$this->conn_queue->setName("log");
-			$this->conn_queue->bind($exchange->getName(),"log");
-		$exchange->publish($newMessage,'log',$flags = AMQP_NOPARAM);
+		$exchange->publish($newMessage,"log",$flags = AMQP_NOPARAM);
+		
+		$conn->disconnect();
 
 	
 	}

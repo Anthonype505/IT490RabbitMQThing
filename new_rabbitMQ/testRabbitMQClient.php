@@ -20,11 +20,10 @@ else
 
 
 $request = array();
-$request['type'] = "Login";
-$request['username'] = "steve";
-$request['password'] = "password";
-$request['message'] = $msg;
-$response = $client->send_request(/*$request*/ "words");
+$request[0] = "login";
+$request[1] = array("agoldman","bodypillow");
+
+$response = $client->send_request($request);
 $logger->log("received",$response);
 
 echo "client received response: ".PHP_EOL;
