@@ -1,33 +1,44 @@
 import pika
+import json
+from MongoThing import MongoThing
 
 
 creds= pika.PlainCredentials('guest', 'guest')
-connection = pika.BlockingConnection(pika.ConnectionParameters( '192.168.1.106', 5672,'AMERICA', creds))
+connection = pika.BlockingConnection(pika.ConnectionParameters( '127.0.0.1', 5672,'AMERICA', creds))
 
 channel = connection.channel()
 
 channel.queue_declare(queue='test')
+channel.queue_bind(exchange='testExchange',queue='test', routing_key='test')
 def backEndThing(n):
-	# Back-end stuff will happen here
-	# Most likely will be a switch case to do other things.
-	return n;
+	mongothing = MongoThing()
+	
+	if n[0] == "login":
+		return mongothing.auth(n[1])
+	elif n[0] == "regi":
+		return mongothing.regi(n[1])
+ 	elif n[0] == "pull":
+		return mongothing.pull(n[1])
+	else:
+		return "Fuck"
+
+
 def on_request(ch, method, props, body):
-	# Data will be sent here
-	# will most likely be a dict
-	#n will equal to the decoded json message then send the queue from there
-	#Uhh, how will i define the switch case?
-	#n = json_decode thing(body)
-	n = 'Goodbye!'
+
+	result = json.loads(body)
 	print "Response from client: " + body
-	response = str(n)
+	response = backEndThing(result)
+	
 	ch.basic_publish(exchange='testExchange', 
 			routing_key='test.response', 
 			properties=pika.BasicProperties(correlation_id=
 							props.correlation_id),
-			body=response)
+			body=json.dumps(str(response)))
 
 	ch.basic_ack(delivery_tag = method.delivery_tag)
 	print "I got the thing!"
+
+
 channel.basic_qos(prefetch_count=1)
 channel.basic_consume(on_request, queue='test')
 # Data will listen/receive things here
